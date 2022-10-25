@@ -29,59 +29,61 @@ const createStation = asyncHandler(async (req, res) => {
   }
 });
 
-const getMyTaskById = asyncHandler(async (req, res) => {
-  const task = await MyTask.findById(req.params.id);
+const getStationById = asyncHandler(async (req, res) => {
+  const station = await Station.findById(req.params.id);
 
-  if (task) {
-    res.json(task);
+  if (station) {
+    res.json(station);
   } else {
-    res.status(404).json({ message: "Task not found" });
+    res.status(404).json({ message: "Station not found" });
   }
 });
 
-const updateMyTask = asyncHandler(async (req, res) => {
-  const { title, description, taskDate } = req.body;
+const updateStation = asyncHandler(async (req, res) => {
+  const { stationname, address, latitude, longtiude, contactnumber } = req.body;
 
-  const task = await MyTask.findById(req.params.id);
+  const station = await Station.findById(req.params.id);
 
-  if (task.user.toString() !== req.user._id.toString()) {
+  if (station.owner.toString() !== req.owner._id.toString()) {
     res.status(401);
     throw new Error("Cannot perform this action");
   }
 
-  if (task) {
-    task.title = title;
-    task.description = description;
-    task.taskDate = taskDate;
+  if (station) {
+    (station.stationname = stationname),
+      (station.address = address),
+      (station.latitude = latitude),
+      (station.longtiude = longtiude),
+      (station.contactnumber = contactnumber);
 
-    const updatedMyTask = await task.save();
-    res.json(updatedMyTask);
+    const updatedStation = await station.save();
+    res.json(updatedStation);
   } else {
     res.status(404);
-    throw new Error("My task not found");
+    throw new Error("Station not found");
   }
 });
 
-const deleteMyTask = asyncHandler(async (req, res) => {
-  const task = await MyTask.findById(req.params.id);
+const deleteStation = asyncHandler(async (req, res) => {
+  const station = await Station.findById(req.params.id);
 
-  if (task.user.toString() !== req.user._id.toString()) {
+  if (station.owner.toString() !== req.owner._id.toString()) {
     res.status(401);
     throw new Error("Cannot perform this action");
   }
 
-  if (task) {
-    await task.remove();
-    res.json({ message: "Your task Deleted" });
+  if (station) {
+    await station.remove();
+    res.json({ message: "Your station Deleted" });
   } else {
     res.status(404);
-    throw new Error("My task not found");
+    throw new Error("My station not found");
   }
 });
 module.exports = {
-  getmyTasks,
-  createMyTask,
-  getMyTaskById,
-  updateMyTask,
-  deleteMyTask,
+  getStations,
+  createStation,
+  getStationById,
+  updateStation,
+  deleteStation,
 };

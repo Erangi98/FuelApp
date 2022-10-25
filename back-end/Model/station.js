@@ -14,7 +14,7 @@ const stationSchema = mongoose.Schema(
     },
 
     // position: {
-        
+
     //         latitude :{
     //             type:double,
     //             required: false
@@ -26,18 +26,25 @@ const stationSchema = mongoose.Schema(
 
     // },
 
-    latitude :{
-        type:double,
-        required: false
+    latitude: {
+      type: double,
+      required: false,
     },
     longtiude: {
-        type:double,
-        required: false
-     },
+      type: double,
+      required: false,
+    },
 
     contactnumber: {
       type: String,
       required: true,
+    },
+
+    owner: {
+      //can use according to the requirements
+      type: mongoose.Schema.Types.ObjectId,
+      required: true,
+      ref: "Owner",
     },
   },
 
