@@ -1,3 +1,4 @@
+
 const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
 
@@ -52,3 +53,4 @@ ownerSchema.methods.matchThePasswords = async function (enteredUserPassword) {
 const Owner = mongoose.model("Owner", ownerSchema);
 
 module.exports = Owner;
+
