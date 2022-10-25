@@ -3,7 +3,7 @@ const asyncHandler = require("express-async-handler");
 const generateToken = require("../Utils/generateToken");
 
 const signUpUser = asyncHandler(async (req, res) => {
-  const { fullname, username, useremail, userpassword } = req.body;
+  const { fullname, username, useremail, userpassword, vehicleType } = req.body;
 
   const userAlreadyExists = await User.findOne({ useremail });
 
@@ -17,6 +17,7 @@ const signUpUser = asyncHandler(async (req, res) => {
     username,
     useremail,
     userpassword,
+    vehicleType
   });
 
   if (user) {
@@ -25,6 +26,7 @@ const signUpUser = asyncHandler(async (req, res) => {
       fullname: user.fullname,
       username: user.username,
       useremail: user.useremail,
+      vehicleType: user.vehicleType,
       isAdmin: user.isAdmin,
       token: generateToken(user._id),
     });
@@ -45,6 +47,7 @@ const authUser = asyncHandler(async (req, res) => {
       fullname: user.fullname,
       username: user.username,
       useremail: user.useremail,
+      vehicleType: user.vehicleType,
       isAdmin: user.isAdmin,
       token: generateToken(user._id),
     });
@@ -70,14 +73,14 @@ const getUserById = asyncHandler(async (req, res) => {
 });
 
 const updateUser = asyncHandler(async (req, res) => {
-  const { fullname, username, useremail, contactnumber } = req.body;
+  const { fullname, username, vehicleType } = req.body;
 
   const user = await User.findById(req.user._id);
 
   if (user) {
     user.fullname = req.body.fullname || user.fullname;
     user.username = req.body.username || user.username;
-    user.contactnumber = req.body.contactnumber || user.contactnumber;
+    user.vehicleType = req.body.vehicleType || user.vehicleType;
 
     if (req.body.userpassword) {
       user.userpassword = req.body.userpassword;
@@ -89,7 +92,7 @@ const updateUser = asyncHandler(async (req, res) => {
       _id: updateUser._id,
       fullname: updateUser.fullname,
       username: updateUser.username,
-      contactnumber: updateUser.contactnumber,
+      vehicleType: updateUser.vehicleType,
       isAdmin: updateUser.isAdmin,
       token: generateToken(updateUser._id),
     });
