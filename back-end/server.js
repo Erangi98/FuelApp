@@ -4,6 +4,8 @@ const connectDataBase = require("./Configuration/database");
 const ownerRoute = require("./Routes/ownerRoute");
 const userRoute = require("./Routes/userRoute");
 const stationRoute = require("./Routes/stationRoute");
+const fuelArrivalRoute = require("./Routes/fuelArrivalRoute");
+const fuelDepartureRoute = require("./Routes/fuelDepartureRoute");
 const { notFoundError, errorHandler } = require("./Middlewares/errorMiddleWare");
 
 const app = express();
@@ -14,6 +16,8 @@ app.use(express.json());
 app.use("/api/owners", ownerRoute);
 app.use("/api/users", userRoute);
 app.use("/api/stations", stationRoute);
+app.use("/api/fuelArrival", fuelArrivalRoute);
+app.use("/api/fuelDeparture", fuelDepartureRoute);
 
 app.use(notFoundError);
 app.use(errorHandler);

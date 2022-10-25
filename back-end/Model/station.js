@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const bcrypt = require("bcryptjs");
+
 
 const stationSchema = mongoose.Schema(
   {
@@ -27,11 +27,11 @@ const stationSchema = mongoose.Schema(
     // },
 
     latitude: {
-      type: double,
+      type: Number,
       required: false,
     },
     longtiude: {
-      type: double,
+      type: Number,
       required: false,
     },
 
