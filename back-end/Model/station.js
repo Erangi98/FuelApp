@@ -46,19 +46,6 @@ const stationSchema = mongoose.Schema(
   }
 );
 
-ownerSchema.pre("save", async function (next) {
-  if (!this.isModified("userpassword")) {
-    next();
-  }
+const Station = mongoose.model("Station", stationSchema);
 
-  const salt = await bcrypt.genSalt(10);
-  this.userpassword = await bcrypt.hash(this.userpassword, salt);
-});
-
-ownerSchema.methods.matchThePasswords = async function (enteredUserPassword) {
-  return await bcrypt.compare(enteredUserPassword, this.userpassword);
-};
-
-const Owner = mongoose.model("Owner", ownerSchema);
-
-module.exports = Owner;
+module.exports = Station;

@@ -23,9 +23,9 @@ const createStation = asyncHandler(async (req, res) => {
       contactnumber,
     });
 
-    const createdMyTask = await mytask.save();
+    const createdStation = await station.save();
 
-    res.status(201).json(createdMyTask);
+    res.status(201).json(createdStation);
   }
 });
 
