@@ -1,5 +1,4 @@
 const mongoose = require("mongoose");
-const bcrypt = require("bcryptjs");
 
 const stationSchema = mongoose.Schema(
   {
@@ -14,7 +13,7 @@ const stationSchema = mongoose.Schema(
     },
 
     // position: {
-        
+
     //         latitude :{
     //             type:double,
     //             required: false
@@ -26,18 +25,25 @@ const stationSchema = mongoose.Schema(
 
     // },
 
-    latitude :{
-        type:double,
-        required: false
+    latitude: {
+      type: Number,
+      required: false,
     },
     longtiude: {
-        type:double,
-        required: false
-     },
+      type: Number,
+      required: false,
+    },
 
     contactnumber: {
       type: String,
       required: true,
+    },
+
+    owner: {
+      //can use according to the requirements
+      type: mongoose.Schema.Types.ObjectId,
+      required: true,
+      ref: "Owner",
     },
   },
 
