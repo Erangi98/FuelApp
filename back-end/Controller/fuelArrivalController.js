@@ -2,22 +2,28 @@ const asyncHandler = require("express-async-handler");
 const res = require("express/lib/response");
 const FuelArrival = require("../Model/fuelArrival");
 
+let x = false;
+let y = false;
+
 const getFuelArrival = asyncHandler(async (req, res) => {
   const fuelArrivals = await FuelArrival.find({ owner: req.owner._id });
   res.json(fuelArrivals);
 });
 
 const createFuelArrival = asyncHandler(async (req, res) => {
-  const { diesalArrivalTime, petrolArrivalTime } = req.body;
+  const { dieselArrivalTime, petrolArrivalTime } = req.body;
 
-  if (!diesalArrivalTime || !petrolArrivalTime) {
-    res.status(400);
-    throw new Error("Cannot be empty fields");
-  } else {
+  if (petrolArrivalTime) x = true;
+
+  if (dieselArrivalTime) y = true;
+
+  if (dieselArrivalTime || petrolArrivalTime) {
     const fuelArrival = new FuelArrival({
       owner: req.owner._id,
-      diesalArrivalTime,
-      petrolArrivalTime
+      dieselArrivalTime,
+      petrolArrivalTime,
+      petrolStatus: x,
+      dieselStatus: y,
     });
 
     const createdFuelArrival = await fuelArrival.save();
@@ -27,7 +33,7 @@ const createFuelArrival = asyncHandler(async (req, res) => {
 });
 
 const updateFuelArrival = asyncHandler(async (req, res) => {
-  const { diesalArrivalTime, petrolArrivalTime } = req.body;
+  const { dieselArrivalTime, petrolArrivalTime } = req.body;
 
   const fuelArrival = await FuelArrival.findById(req.params.id);
 
@@ -37,7 +43,7 @@ const updateFuelArrival = asyncHandler(async (req, res) => {
   }
 
   if (fuelArrival) {
-    (fuelArrival.diesalArrivalTime = diesalArrivalTime),
+    (fuelArrival.dieselArrivalTime = dieselArrivalTime),
       (fuelArrival.petrolArrivalTime = petrolArrivalTime);
 
     const updatedFuelArrival = await fuelArrival.save();
@@ -47,7 +53,6 @@ const updateFuelArrival = asyncHandler(async (req, res) => {
     throw new Error("Arrival Time not found");
   }
 });
-
 
 module.exports = {
   getFuelArrival,
