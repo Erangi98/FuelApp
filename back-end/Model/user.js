@@ -24,6 +24,11 @@ const userSchema = mongoose.Schema(
       required: true,
     },
 
+    vehicleType: {
+      type: String,
+      required: true,
+    },
+
     isAdmin: {
       //can use according to the requirements
       type: Boolean,
