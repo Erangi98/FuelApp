@@ -14,7 +14,7 @@ const ownerSchema = mongoose.Schema(
       required: true,
     },
 
-    userpassword: {
+    ownerpassword: {
       type: String,
       required: true,
     },
@@ -38,16 +38,16 @@ const ownerSchema = mongoose.Schema(
 );
 
 ownerSchema.pre("save", async function (next) {
-  if (!this.isModified("userpassword")) {
+  if (!this.isModified("ownerpassword")) {
     next();
   }
 
   const salt = await bcrypt.genSalt(10);
-  this.userpassword = await bcrypt.hash(this.userpassword, salt);
+  this.ownerpassword = await bcrypt.hash(this.ownerpassword, salt);
 });
 
 ownerSchema.methods.matchThePasswords = async function (enteredUserPassword) {
-  return await bcrypt.compare(enteredUserPassword, this.userpassword);
+  return await bcrypt.compare(enteredUserPassword, this.ownerpassword);
 };
 
 const Owner = mongoose.model("Owner", ownerSchema);

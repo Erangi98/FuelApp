@@ -3,7 +3,7 @@ const asyncHandler = require("express-async-handler");
 const generateToken = require("../Utils/generateToken");
 
 const signUpUser = asyncHandler(async (req, res) => {
-  const { username, useremail, userpassword, vehicletype } = req.body;
+  const { fullname, username, useremail, userpassword } = req.body;
 
   const userAlreadyExists = await User.findOne({ useremail });
 
@@ -13,18 +13,18 @@ const signUpUser = asyncHandler(async (req, res) => {
   }
 
   const user = await User.create({
+    fullname,
     username,
     useremail,
     userpassword,
-    vehicletype,
   });
 
   if (user) {
     res.status(201).json({
       _id: user._id,
+      fullname: user.fullname,
       username: user.username,
       useremail: user.useremail,
-      vehicletype: user.vehicletype,
       isAdmin: user.isAdmin,
       token: generateToken(user._id),
     });
@@ -35,16 +35,16 @@ const signUpUser = asyncHandler(async (req, res) => {
 });
 
 const authUser = asyncHandler(async (req, res) => {
-  const { useremail, userpassword } = req.body;
+  const { username, userpassword } = req.body;
 
-  const user = await User.findOne({ useremail });
+  const user = await User.findOne({ username });
 
   if (user && (await user.matchThePasswords(userpassword))) {
     res.json({
       _id: user._id,
+      fullname: user.fullname,
       username: user.username,
       useremail: user.useremail,
-      vehicletype: user.vehicletype,
       isAdmin: user.isAdmin,
       token: generateToken(user._id),
     });
@@ -54,13 +54,30 @@ const authUser = asyncHandler(async (req, res) => {
   }
 });
 
-const updateUserProfile = asyncHandler(async (req, res) => {
+const getUsers = asyncHandler(async (req, res) => {
+  const users = await User.find();
+  res.json(users);
+});
+
+const getUserById = asyncHandler(async (req, res) => {
+  const user = await User.findById(req.params.id);
+
+  if (user) {
+    res.json(user);
+  } else {
+    res.status(404).json({ message: "User not found" });
+  }
+});
+
+const updateUser = asyncHandler(async (req, res) => {
+  const { fullname, username, useremail, contactnumber } = req.body;
+
   const user = await User.findById(req.user._id);
 
   if (user) {
+    user.fullname = req.body.fullname || user.fullname;
     user.username = req.body.username || user.username;
-    user.useremail = req.body.useremail || user.useremail;
-    user.vehicletype = req.body.vehicletype || user.vehicletype;
+    user.contactnumber = req.body.contactnumber || user.contactnumber;
 
     if (req.body.userpassword) {
       user.userpassword = req.body.userpassword;
@@ -70,9 +87,9 @@ const updateUserProfile = asyncHandler(async (req, res) => {
 
     res.json({
       _id: updateUser._id,
+      fullname: updateUser.fullname,
       username: updateUser.username,
-      useremail: updateUser.useremail,
-      vehicletype: user.vehicletype,
+      contactnumber: updateUser.contactnumber,
       isAdmin: updateUser.isAdmin,
       token: generateToken(updateUser._id),
     });
@@ -82,4 +99,30 @@ const updateUserProfile = asyncHandler(async (req, res) => {
   }
 });
 
-module.exports = { signUpUser, authUser, updateUserProfile };
+// const updateUserProfile = asyncHandler(async (req, res) => {
+//   const user = await User.findById(req.user._id);
+
+//   if (user) {
+//     user.username = req.body.username || user.username;
+//     user.useremail = req.body.useremail || user.useremail;
+
+//     if (req.body.userpassword) {
+//       user.userpassword = req.body.userpassword;
+//     }
+
+//     const updateUser = await user.save();
+
+//     res.json({
+//       _id: updateUser._id,
+//       username: updateUser.username,
+//       useremail: updateUser.useremail,
+//       isAdmin: updateUser.isAdmin,
+//       token: generateToken(updateUser._id),
+//     });
+//   } else {
+//     res.status(404);
+//     throw new Error("User not found...");
+//   }
+// });
+
+module.exports = { signUpUser, authUser, getUsers, getUserById, updateUser };
