@@ -3,7 +3,7 @@ const asyncHandler = require("express-async-handler");
 const generateToken = require("../Utils/generateToken");
 
 const signUpOwner = asyncHandler(async (req, res) => {
-  const { ownername, username, userpassword, contactnumber } = req.body;
+  const { ownername, username, ownerpassword, contactnumber } = req.body;
 
   const ownerAlreadyExists = await Owner.findOne({ username });
 
@@ -15,7 +15,7 @@ const signUpOwner = asyncHandler(async (req, res) => {
   const owner = await Owner.create({
     ownername,
     username,
-    userpassword,
+    ownerpassword,
     contactnumber,
   });
 
@@ -76,7 +76,7 @@ const updateOwner = asyncHandler(async (req, res) => {
 
   if (owner) {
     owner.ownername = req.body.ownername || owner.ownername;
-    owner.username = req.body.username || owner.username; 
+    owner.username = req.body.username || owner.username;
     owner.contactnumber = req.body.contactnumber || owner.contactnumber;
 
     if (req.body.userpassword) {
@@ -104,7 +104,7 @@ const updateOwner = asyncHandler(async (req, res) => {
 
 //   if (owner) {
 //     owner.ownername = req.body.ownername || owner.ownername;
-//     owner.username = req.body.username || owner.username; 
+//     owner.username = req.body.username || owner.username;
 //     owner.contactnumber = req.body.contactnumber || owner.contactnumber;
 
 //     if (req.body.userpassword) {
@@ -127,4 +127,10 @@ const updateOwner = asyncHandler(async (req, res) => {
 //   }
 // });
 
-module.exports = { signUpOwner, authOwner, getOwners, getOwnerById, updateOwner };
+module.exports = {
+  signUpOwner,
+  authOwner,
+  getOwners,
+  getOwnerById,
+  updateOwner,
+};
