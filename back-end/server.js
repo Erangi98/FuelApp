@@ -2,7 +2,7 @@ const express = require("express");
 const dotenv = require("dotenv");
 const connectDataBase = require("./Configuration/database");
 const ownerRoute = require("./Routes/ownerRoute");
-//const taskRoutes = require("./Routes/taskRoutes");
+const userRoute = require("./Routes/userRoutes");
 const { notFoundError, errorHandler } = require("./MiddleWare/errorMiddleWare");
 
 const app = express();
@@ -11,7 +11,7 @@ connectDataBase();
 app.use(express.json());
 
 app.use("/api/owners", ownerRoute);
-//app.use("/api/mytasklist", taskRoutes);
+app.use("/api/users", userRoute);
 
 app.use(notFoundError);
 app.use(errorHandler);

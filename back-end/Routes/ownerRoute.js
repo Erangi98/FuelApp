@@ -4,7 +4,7 @@ const {
   authOwner,
   updateOwnerProfile,
 } = require("../Controller/ownerController");
-const { protect } = require("../MiddleWare/authMiddleware");
+const { protect } = require("../MiddleWare/authMiddleWare");
 
 const router = express.Router();
 
