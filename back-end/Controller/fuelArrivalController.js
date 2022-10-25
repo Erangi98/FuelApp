@@ -2,8 +2,8 @@ const asyncHandler = require("express-async-handler");
 const res = require("express/lib/response");
 const FuelArrival = require("../Model/fuelArrival");
 
-let x = false;
-let y = false;
+global.x = false;
+global.y = false;
 
 const getFuelArrival = asyncHandler(async (req, res) => {
   const fuelArrivals = await FuelArrival.find({ owner: req.owner._id });
@@ -35,6 +35,10 @@ const createFuelArrival = asyncHandler(async (req, res) => {
 const updateFuelArrival = asyncHandler(async (req, res) => {
   const { dieselArrivalTime, petrolArrivalTime } = req.body;
 
+  if (petrolArrivalTime) x = true;
+
+  if (dieselArrivalTime) y = true;
+
   const fuelArrival = await FuelArrival.findById(req.params.id);
 
   if (fuelArrival.owner.toString() !== req.owner._id.toString()) {
@@ -43,8 +47,10 @@ const updateFuelArrival = asyncHandler(async (req, res) => {
   }
 
   if (fuelArrival) {
-    (fuelArrival.dieselArrivalTime = dieselArrivalTime),
-      (fuelArrival.petrolArrivalTime = petrolArrivalTime);
+    (fuelArrival.dieselArrivalTime = dieselArrivalTime,
+    fuelArrival.petrolArrivalTime = petrolArrivalTime,
+    fuelArrival.petrolStatus = x,
+    fuelArrival.dieselStatus = y);
 
     const updatedFuelArrival = await fuelArrival.save();
     res.json(updatedFuelArrival);

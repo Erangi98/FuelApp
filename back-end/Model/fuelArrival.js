@@ -4,18 +4,21 @@ const mongoose = require("mongoose");
 const fuelArrivalSchema = mongoose.Schema(
   {
     dieselArrivalTime: {
-      type: Date,
+      type: String,
     },
 
     petrolArrivalTime: {
-      type: Date,
+      type: String,
     },
+
     petrolStatus: {
       type: Boolean
     },
+
     dieselStatus: {
       type: Boolean
     },
+
     owner: {
       //can use according to the requirements
       type: mongoose.Schema.Types.ObjectId,
