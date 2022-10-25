@@ -99,30 +99,4 @@ const updateUser = asyncHandler(async (req, res) => {
   }
 });
 
-// const updateUserProfile = asyncHandler(async (req, res) => {
-//   const user = await User.findById(req.user._id);
-
-//   if (user) {
-//     user.username = req.body.username || user.username;
-//     user.useremail = req.body.useremail || user.useremail;
-
-//     if (req.body.userpassword) {
-//       user.userpassword = req.body.userpassword;
-//     }
-
-//     const updateUser = await user.save();
-
-//     res.json({
-//       _id: updateUser._id,
-//       username: updateUser.username,
-//       useremail: updateUser.useremail,
-//       isAdmin: updateUser.isAdmin,
-//       token: generateToken(updateUser._id),
-//     });
-//   } else {
-//     res.status(404);
-//     throw new Error("User not found...");
-//   }
-// });
-
 module.exports = { signUpUser, authUser, getUsers, getUserById, updateUser };

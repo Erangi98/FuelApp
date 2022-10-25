@@ -3,14 +3,18 @@ const mongoose = require("mongoose");
 
 const fuelArrivalSchema = mongoose.Schema(
   {
-    diesalArrivalTime: {
+    dieselArrivalTime: {
       type: Date,
-      required: true,
     },
 
     petrolArrivalTime: {
       type: Date,
-      required: true,
+    },
+    petrolStatus: {
+      type: Boolean
+    },
+    dieselStatus: {
+      type: Boolean
     },
     owner: {
       //can use according to the requirements
