@@ -1,18 +1,20 @@
 const asyncHandler = require("express-async-handler");
 const res = require("express/lib/response");
 const Station = require("../Model/station");
-const { v4: uuidv4 } = require('uuid');
 
+//getting the list of all stations
 const getStations = asyncHandler(async (req, res) => {
   const stations = await Station.find();
   res.json(stations);
 });
 
+//getting the list of stations by owner
 const getStationsbyOwner = asyncHandler(async (req, res) => {
   const stations = await Station.find({ owner: req.owner._id });
   res.json(stations);
 });
 
+//creating station
 const createStation = asyncHandler(async (req, res) => {
   const { stationname, address, latitude, longtiude, contactnumber } = req.body;
 
@@ -35,6 +37,7 @@ const createStation = asyncHandler(async (req, res) => {
   }
 });
 
+//getting individual station by id
 const getStationById = asyncHandler(async (req, res) => {
   const station = await Station.findById(req.params.id);
 
@@ -45,6 +48,7 @@ const getStationById = asyncHandler(async (req, res) => {
   }
 });
 
+//updating the station details
 const updateStation = asyncHandler(async (req, res) => {
   const { stationname, address, latitude, longtiude, contactnumber } = req.body;
 
@@ -70,6 +74,7 @@ const updateStation = asyncHandler(async (req, res) => {
   }
 });
 
+//deleting the station details from db
 const deleteStation = asyncHandler(async (req, res) => {
   const station = await Station.findById(req.params.id);
 
@@ -86,6 +91,8 @@ const deleteStation = asyncHandler(async (req, res) => {
     throw new Error("My station not found");
   }
 });
+
+//exporting the methods
 module.exports = {
   getStations,
   getStationsbyOwner,
