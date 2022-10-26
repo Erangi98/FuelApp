@@ -2,6 +2,7 @@
 const express = require("express");
 const {
   getStations,
+  getStationsbyOwner,
   createStation,
   getStationById,
   updateStation,
@@ -11,7 +12,8 @@ const { protect } = require("../MiddleWares/authMiddleWare");
 
 const router = express.Router();
 
-router.route("/").get(protect, getStations);
+router.route("/stations").get(getStations);
+router.route("/").get(protect, getStationsbyOwner);
 router.route("/createstation").post(protect, createStation);
 router
   .route("/:id")

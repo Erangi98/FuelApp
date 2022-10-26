@@ -5,11 +5,16 @@ const generateToken = require("../Utils/generateToken");
 const signUpUser = asyncHandler(async (req, res) => {
   const { fullname, username, useremail, userpassword, vehicleType } = req.body;
 
-  const userAlreadyExists = await User.findOne({ useremail });
+  const userEmailAlreadyExists = await User.findOne({ useremail });
+  const usernameAlreadyExists = await User.findOne({ username });
 
-  if (userAlreadyExists) {
+  if (usernameAlreadyExists) {
     res.status(400);
-    throw new Error("Error! User Already Exists!");
+    throw new Error("This username is not available");
+  }
+  if (userEmailAlreadyExists) {
+    res.status(400);
+    throw new Error("This email is not available");
   }
 
   const user = await User.create({
