@@ -2,11 +2,13 @@ const User = require("../Model/user");
 const Queue = require("../Model/vehicleQueue");
 const asyncHandler = require("express-async-handler");
 
+// initializing varibles for the queue lengths
 let bike = 0;
 let car = 0;
 let van = 0;
 let bus = 0;
 
+// calcaulating the queue length by vehicle type
 const queueIncrease = asyncHandler(async (req, res) => {
   const { vehicleType } = req.body;
 
@@ -46,6 +48,7 @@ const queueIncrease = asyncHandler(async (req, res) => {
   }
 });
 
+// user entered time for the queue
 const enteredTime = asyncHandler(async (req, res) => {
   const { enteredTime } = req.body;
 
@@ -54,6 +57,7 @@ const enteredTime = asyncHandler(async (req, res) => {
   res.status(200).json(enter);
 });
 
+// user exites time of the queue
 const exitTime = asyncHandler(async (req, res) => {
   const { exitedTime } = req.body;
 
@@ -62,4 +66,5 @@ const exitTime = asyncHandler(async (req, res) => {
   res.status(200).json(quit);
 });
 
+// exporting the methods
 module.exports = { queueIncrease, enteredTime, exitTime };

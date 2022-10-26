@@ -1,4 +1,3 @@
-
 const express = require("express");
 const {
   getStations,
@@ -12,6 +11,7 @@ const { protect } = require("../MiddleWares/authMiddleWare");
 
 const router = express.Router();
 
+//station routes
 router.route("/stations").get(getStations);
 router.route("/").get(protect, getStationsbyOwner);
 router.route("/createstation").post(protect, createStation);

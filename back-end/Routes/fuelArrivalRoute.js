@@ -7,12 +7,10 @@ const {
 const { protect } = require("../MiddleWares/authMiddleWare");
 
 const router = express.Router();
-
-//router.route("/:id").get(protect, getFuelArrival);
-router.route("/createFuelArrival").post(protect, fuelStatus);
-router
-  .route("/:id")
-  .put(protect, updateFuelArrival);
  
+//fuel arrival routes
+router.route("/createFuelArrival").post(protect, fuelStatus);
+router.route("/updatefueldeparture/:id").post(protect, updateFuelDeparture);
+router.route("/:id").put(protect, updateFuelArrival);
 
 module.exports = router;

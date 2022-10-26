@@ -2,6 +2,7 @@ const User = require("../Model/user");
 const asyncHandler = require("express-async-handler");
 const generateToken = require("../Utils/generateToken");
 
+//fuel user registration
 const signUpUser = asyncHandler(async (req, res) => {
   const { fullname, username, useremail, userpassword, vehicleType } = req.body;
 
@@ -41,6 +42,7 @@ const signUpUser = asyncHandler(async (req, res) => {
   }
 });
 
+//login of the fuel user
 const authUser = asyncHandler(async (req, res) => {
   const { username, userpassword } = req.body;
 
@@ -62,11 +64,13 @@ const authUser = asyncHandler(async (req, res) => {
   }
 });
 
+// fuel users list
 const getUsers = asyncHandler(async (req, res) => {
   const users = await User.find();
   res.json(users);
 });
 
+//getting individual user details
 const getUserById = asyncHandler(async (req, res) => {
   const user = await User.findById(req.params.id);
 
@@ -77,6 +81,7 @@ const getUserById = asyncHandler(async (req, res) => {
   }
 });
 
+//updateting fuel user
 const updateUser = asyncHandler(async (req, res) => {
   const { fullname, username, vehicleType } = req.body;
 
@@ -107,4 +112,5 @@ const updateUser = asyncHandler(async (req, res) => {
   }
 });
 
+//exporting the methods
 module.exports = { signUpUser, authUser, getUsers, getUserById, updateUser };
