@@ -1,8 +1,14 @@
 const asyncHandler = require("express-async-handler");
 const res = require("express/lib/response");
 const Station = require("../Model/station");
+const { v4: uuidv4 } = require('uuid');
 
 const getStations = asyncHandler(async (req, res) => {
+  const stations = await Station.find();
+  res.json(stations);
+});
+
+const getStationsbyOwner = asyncHandler(async (req, res) => {
   const stations = await Station.find({ owner: req.owner._id });
   res.json(stations);
 });
@@ -25,7 +31,7 @@ const createStation = asyncHandler(async (req, res) => {
 
     const createdStation = await station.save();
 
-    res.status(201).json(createdStation);
+    res.status(201).json( createdStation);
   }
 });
 
@@ -82,6 +88,7 @@ const deleteStation = asyncHandler(async (req, res) => {
 });
 module.exports = {
   getStations,
+  getStationsbyOwner,
   createStation,
   getStationById,
   updateStation,

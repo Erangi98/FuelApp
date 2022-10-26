@@ -1,15 +1,15 @@
 const express = require("express");
 const {
-  getFuelArrival,
-  createFuelArrival,
+  fuelStatus,
   updateFuelArrival,
-} = require("../Controller/fuelArrivalController");
+  updateFuelDeparture,
+} = require("../Controller/fuelController");
 const { protect } = require("../MiddleWares/authMiddleWare");
 
 const router = express.Router();
 
-router.route("/").get(protect, getFuelArrival);
-router.route("/createFuelArrival").post(protect, createFuelArrival);
+//router.route("/:id").get(protect, getFuelArrival);
+router.route("/createFuelArrival").post(protect, fuelStatus);
 router
   .route("/:id")
   .put(protect, updateFuelArrival);

@@ -16,8 +16,10 @@
     "express": "^4.18.2",
     "express-async-handler": "^1.2.0",
     "jsonwebtoken": "^8.5.1",
+    "mongodb-autoincrement": "^1.0.1",
     "mongoose": "^6.6.7",
     "nodemon": "^2.0.20",
-    "redux-devtools-extension": "^2.13.9"
+    "redux-devtools-extension": "^2.13.9",
+    "uuid": "^9.0.0"
   }
 }

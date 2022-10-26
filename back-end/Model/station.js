@@ -1,6 +1,5 @@
 const mongoose = require("mongoose");
 
-
 const stationSchema = mongoose.Schema(
   {
     stationname: {
@@ -12,19 +11,6 @@ const stationSchema = mongoose.Schema(
       type: String,
       required: true,
     },
-
-    // position: {
-
-    //         latitude :{
-    //             type:double,
-    //             required: false
-    //         },
-    //         longtiude: {
-    //             type:double,
-    //             required: false
-    //         },
-
-    // },
 
     latitude: {
       type: Number,
@@ -41,7 +27,6 @@ const stationSchema = mongoose.Schema(
     },
 
     owner: {
-      //can use according to the requirements
       type: mongoose.Schema.Types.ObjectId,
       required: true,
       ref: "Owner",
