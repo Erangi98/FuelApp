@@ -2,6 +2,12 @@ const mongoose = require("mongoose");
 
 const queueSchema = mongoose.Schema(
   {
+    enteredTime: {
+      type: String,
+    },
+    leaveTime: {
+      type: String,
+    },
     bikeQueueLength: {
       type: Number,
       required: false,
