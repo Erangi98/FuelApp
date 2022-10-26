@@ -46,35 +46,20 @@ const queueIncrease = asyncHandler(async (req, res) => {
   }
 });
 
-// const queueIncrease = asyncHandler(async(req, res) => {
-//     const user = User.findById(req.params.id);
+const enteredTime = asyncHandler(async (req, res) => {
+  const { enteredTime } = req.body;
 
-//     if (user) {
-//         if ( user.vehicleType !== null){
+  const enter = await Queue.create(enteredTime);
 
-//         if (user.vehicleType == "bike"){
-//             b ++;
-//         }
-//         if (user.vehicleType == "tuk"){
-//             t ++;
-//         }
-//         if (user.vehicleType == "car"){
-//             c ++;
-//         }
-//         if (user.vehicleType == "van"){
-//             v ++;
-//         }
-//     }
-//         res.json({
-//             bikeQueueLength: b,
-//             tukQueueLength: t,
-//             carQueueLength: c,
-//             vanQueueLength: v
-//         })
+  res.status(200).json(enter);
+});
 
-//     } else {
-//         res.status(404).json({ message: "User not found" });
-//     }
-// });
+const exitTime = asyncHandler(async (req, res) => {
+  const { exitedTime } = req.body;
 
-module.exports = { queueIncrease };
+  const quit = await Queue.create(exitedTime);
+
+  res.status(200).json(quit);
+});
+
+module.exports = { queueIncrease, enteredTime, exitTime };
