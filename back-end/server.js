@@ -4,9 +4,10 @@ const connectDataBase = require("./Configuration/database");
 const ownerRoute = require("./Routes/ownerRoute");
 const userRoute = require("./Routes/userRoute");
 const stationRoute = require("./Routes/stationRoute");
-const fuelArrivalRoute = require("./Routes/fuelArrivalRoute");
-const fuelDepartureRoute = require("./Routes/fuelDepartureRoute");
+// const fuelArrivalRoute = require("./Routes/fuelArrivalRoute");
+// const fuelDepartureRoute = require("./Routes/fuelDepartureRoute");
 const queueLengthRoute = require("./Routes/queueRoutes");
+const stationRouteNew = require("./Routes/stationRouteNew")
 const {
   notFoundError,
   errorHandler,
@@ -21,9 +22,10 @@ app.use(express.json());
 app.use("/api/owners", ownerRoute);
 app.use("/api/users", userRoute);
 app.use("/api/stations", stationRoute);
-app.use("/api/fuelArrival", fuelArrivalRoute);
-app.use("/api/fuelDeparture", fuelDepartureRoute);
+// app.use("/api/fuelArrival", fuelArrivalRoute);
+// app.use("/api/fuelDeparture", fuelDepartureRoute);
 app.use("/api/queueLength", queueLengthRoute);
+app.use("/api/stationsNew", stationRouteNew);
 
 app.use(notFoundError);
 app.use(errorHandler);
