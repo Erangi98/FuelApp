@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 
 const stationSchema = mongoose.Schema(
   {
-    stationname: {
+    stationName: {
       type: String,
       required: true,
     },
@@ -21,10 +21,21 @@ const stationSchema = mongoose.Schema(
       required: false,
     },
 
-    contactnumber: {
+    contactNumber: {
       type: String,
       required: true,
     },
+
+    fuel: [
+      {
+        petrolArrivalTime: String,
+        dieselArrivalTime: String,
+        dieselDepartureTime: String,
+        petrolDepartureTime: String,
+        petrolStatus: Boolean,
+        dieselStatus: Boolean,
+      },
+    ],
 
     owner: {
       type: mongoose.Schema.Types.ObjectId,
@@ -38,6 +49,6 @@ const stationSchema = mongoose.Schema(
   }
 );
 
-const Station = mongoose.model("Station", stationSchema);
+const StationNew = mongoose.model("StationNew", stationSchema);
 
-module.exports = Station;
+module.exports = StationNew;
