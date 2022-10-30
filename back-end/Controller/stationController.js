@@ -2,102 +2,98 @@ const asyncHandler = require("express-async-handler");
 const res = require("express/lib/response");
 const Station = require("../Model/station");
 
-//getting the list of all stations
-const getStations = asyncHandler(async (req, res) => {
-  const stations = await Station.find();
-  res.json(stations);
-});
+//defining 2 boolean variables for fuel status
+global.x = false;
+global.y = false;
 
-//getting the list of stations by owner
-const getStationsbyOwner = asyncHandler(async (req, res) => {
-  const stations = await Station.find({ owner: req.owner._id });
-  res.json(stations);
-});
-
-//creating station
 const createStation = asyncHandler(async (req, res) => {
-  const { stationname, address, latitude, longtiude, contactnumber } = req.body;
-
-  if (!stationname || !address || !latitude || !longtiude || !contactnumber) {
+  const { stationName, address, latitude, longtiude, contactNumber } = req.body;
+  if (!stationName || !address || !latitude || !longtiude || !contactNumber) {
     res.status(400);
     throw new Error("Cannot be empty fields");
   } else {
     const station = new Station({
+      success: true,
       owner: req.owner._id,
-      stationname,
+      stationName,
       address,
       latitude,
       longtiude,
-      contactnumber,
+      contactNumber,
+      fuel: [
+        {
+          petrolArrivalTime: Date(),
+          dieselArrivalTime: Date(),
+          petrolDepartureTime: Date(),
+          dieselDepartureTime: Date(),
+          petrolStatus: false,
+          dieselStatus: false,
+        },
+      ],
     });
-
     const createdStation = await station.save();
 
-    res.status(201).json( createdStation);
+    res.status(201).json(createdStation);
   }
 });
 
-//getting individual station by id
-const getStationById = asyncHandler(async (req, res) => {
-  const station = await Station.findById(req.params.id);
+const updateFuelDetails = async (req, res) => {
+  try {
+    const {
+      stationName,
+      dieselArrivalTime,
+      petrolArrivalTime,
+      dieselDepartureTime,
+      petrolDepartureTime,
+    } = req.body;
+    const { id } = req.params;
 
-  if (station) {
-    res.json(station);
-  } else {
-    res.status(404).json({ message: "Station not found" });
+    if (petrolArrivalTime) x = true;
+
+    if (dieselArrivalTime) y = true;
+
+    if (petrolDepartureTime) x = false;
+
+    if (dieselDepartureTime) y = false;
+
+    if (
+      (dieselArrivalTime && dieselDepartureTime) ||
+      (petrolArrivalTime && petrolDepartureTime)
+    ) {
+      res.status(400);
+      throw new Error("Only insert arrival or departure times");
+    }
+
+    const updateStation = await Station.findByIdAndUpdate(
+      { _id: id },
+      {
+        success: true,
+        stationName: stationName,
+        $set: {
+          fuel: [
+            {
+              petrolArrivalTime: petrolArrivalTime,
+              dieselArrivalTime: dieselArrivalTime,
+              dieselDepartureTime: dieselDepartureTime,
+              petrolDepartureTime: petrolDepartureTime,
+              petrolStatus: x,
+              dieselStatus: y,
+            },
+          ],
+        },
+      },
+      {
+        new: true,
+        runValidators: true,
+      }
+    );
+    res.status(200).json(updateStation);
+  } catch (error) {
+    console.log(error);
   }
-});
+};
 
-//updating the station details
-const updateStation = asyncHandler(async (req, res) => {
-  const { stationname, address, latitude, longtiude, contactnumber } = req.body;
-
-  const station = await Station.findById(req.params.id);
-
-  if (station.owner.toString() !== req.owner._id.toString()) {
-    res.status(401);
-    throw new Error("Cannot perform this action");
-  }
-
-  if (station) {
-    (station.stationname = stationname),
-      (station.address = address),
-      (station.latitude = latitude),
-      (station.longtiude = longtiude),
-      (station.contactnumber = contactnumber);
-
-    const updatedStation = await station.save();
-    res.json(updatedStation);
-  } else {
-    res.status(404);
-    throw new Error("Station not found");
-  }
-});
-
-//deleting the station details from db
-const deleteStation = asyncHandler(async (req, res) => {
-  const station = await Station.findById(req.params.id);
-
-  if (station.owner.toString() !== req.owner._id.toString()) {
-    res.status(401);
-    throw new Error("Cannot perform this action");
-  }
-
-  if (station) {
-    await station.remove();
-    res.json({ message: "Your station Deleted" });
-  } else {
-    res.status(404);
-    throw new Error("My station not found");
-  }
-});
-
-//exporting the methods
 module.exports = {
-  getStations,
-  getStationsbyOwner,
   createStation,
-  getStationById,
-  updateStation,
-  deleteStation,
+  updateFuelDetails,
 };

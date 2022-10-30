@@ -22,6 +22,7 @@ const signUpOwner = asyncHandler(async (req, res) => {
 
   if (owner) {
     res.status(201).json({
+      success: true,
       _id: owner._id,
       ownername: owner.ownername,
       username: owner.username,
@@ -43,6 +44,7 @@ const authOwner = asyncHandler(async (req, res) => {
 
   if (owner && (await owner.matchThePasswords(ownerpassword))) {
     res.json({
+      success: true,
       _id: owner._id,
       username: owner.username,
       ownername: owner.ownername,
@@ -91,6 +93,7 @@ const updateOwner = asyncHandler(async (req, res) => {
     const updateOwner = await owner.save();
 
     res.json({
+      success: true,
       _id: updateOwner._id,
       ownername: updateOwner.ownername,
       username: updateOwner.username,
