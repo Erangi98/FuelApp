@@ -3,9 +3,8 @@ const dotenv = require("dotenv");
 const connectDataBase = require("./Configuration/database");
 const ownerRoute = require("./Routes/ownerRoute");
 const userRoute = require("./Routes/userRoute");
-const stationRoute = require("./Routes/stationRoute");
 const queueLengthRoute = require("./Routes/queueRoutes");
-const stationRouteNew = require("./Routes/stationRoute")
+const stationRoute = require("./Routes/stationRoute")
 const {
   notFoundError,
   errorHandler,
@@ -19,9 +18,8 @@ app.use(express.json());
 //route prefixes
 app.use("/api/owners", ownerRoute);
 app.use("/api/users", userRoute);
-app.use("/api/stations", stationRoute);
 app.use("/api/queueLength", queueLengthRoute);
-app.use("/api/stationsNew", stationRouteNew);
+app.use("/api/stations", stationRoute);
 
 app.use(notFoundError);
 app.use(errorHandler);

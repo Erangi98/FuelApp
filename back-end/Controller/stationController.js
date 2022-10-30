@@ -30,6 +30,16 @@ const createStation = asyncHandler(async (req, res) => {
           dieselStatus: false,
         },
       ],
+      queue: [
+        {
+          enteredTime: Date(),
+          leaveTime: Date(),
+          bikeQueueLength: 0,
+          carQueueLength: 0,
+          vanQueueLength: 0,
+          busQueueLength: 0,
+        },
+      ],
     });
     const createdStation = await station.save();
 
@@ -87,13 +97,26 @@ const updateFuelDetails = async (req, res) => {
         runValidators: true,
       }
     );
-    res.status(200).json(updateStation);
+    res.status(200).json(updateStation.fuel);
   } catch (error) {
     console.log(error);
   }
 };
 
+const getStations = asyncHandler(async (req, res) => {
+  const stations = await Station.find();
+  res.json(stations);
+});
+
+const getStationsByOwner = asyncHandler(async (req, res) => {
+  const stations = await Station.find({ owner: req.owner._id });
+
+  res.json(stations);
+});
+
 module.exports = {
   createStation,
   updateFuelDetails,
+  getStations,
+  getStationsByOwner,
 };

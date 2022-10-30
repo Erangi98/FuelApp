@@ -37,6 +37,17 @@ const stationSchema = mongoose.Schema(
       },
     ],
 
+    queue: [
+      {
+        enteredTime: String,
+        leaveTime: String,
+        bikeQueueLength: Number,
+        carQueueLength: Number,
+        vanQueueLength: Number,
+        busQueueLength: Number,
+      },
+    ],
+
     owner: {
       type: mongoose.Schema.Types.ObjectId,
       required: true,

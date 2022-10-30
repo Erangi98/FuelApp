@@ -23,7 +23,7 @@ const signUpUser = asyncHandler(async (req, res) => {
     username,
     useremail,
     userpassword,
-    vehicleType
+    vehicleType,
   });
 
   if (user) {

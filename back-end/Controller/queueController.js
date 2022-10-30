@@ -1,5 +1,4 @@
-const User = require("../Model/user");
-const Queue = require("../Model/vehicleQueue");
+const Queue = require("../Model/station");
 const asyncHandler = require("express-async-handler");
 
 // initializing varibles for the queue lengths
@@ -11,7 +10,7 @@ let bus = 0;
 // calcaulating the queue length by vehicle type
 const queueIncrease = asyncHandler(async (req, res) => {
   const { vehicleType } = req.body;
-
+  const { id } = req.params;
   const queue = await Queue.findById(req.params.id);
 
   if (queue) {
@@ -29,15 +28,28 @@ const queueIncrease = asyncHandler(async (req, res) => {
         bus++;
       }
     }
-    const lengths = await Queue({
-      bikeQueueLength: bike,
-      carQueueLength: car,
-      vanQueueLength: van,
-      busQueueLength: bus,
-    });
+    const lengths = await Queue.findByIdAndUpdate(
+      { _id: id },
+      {
+        success: true,
+        $set: {
+          queue: [
+            {
+              bikeQueueLength: bike,
+              carQueueLength: car,
+              vanQueueLength: van,
+              busQueueLength: bus,
+            },
+          ],
+        },
+      },
+      {
+        new: true,
+        runValidators: true,
+      }
+    );
 
-    const savedQueue = await lengths.save();
-    if (savedQueue) {
+    if (lengths) {
       res.json({
         bikeQueueLength: bike,
         carQueueLength: car,
