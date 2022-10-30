@@ -1,6 +1,8 @@
 const asyncHandler = require("express-async-handler");
 const res = require("express/lib/response");
 const Station = require("../Model/station");
+var moment = require("moment"); // require
+
 
 //defining 2 boolean variables for fuel status
 global.x = false;
@@ -22,10 +24,11 @@ const createStation = asyncHandler(async (req, res) => {
       contactNumber,
       fuel: [
         {
-          petrolArrivalTime: Date(),
-          dieselArrivalTime: Date(),
-          petrolDepartureTime: Date(),
-          dieselDepartureTime: Date(),
+          //petrolArrivalTime: Date(),
+          petrolArrivalTime: moment().format("D M YYYY"),
+          dieselArrivalTime: moment().format("D M YYYY"),
+          petrolDepartureTime: moment().format("D M YYYY"),
+          dieselDepartureTime: moment().format("D M YYYY"),
           petrolStatus: false,
           dieselStatus: false,
         },
