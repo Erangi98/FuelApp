@@ -25,13 +25,13 @@ const queueSchema = mongoose.Schema(
       required: false,
     },
     station: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Station",
-      },
-      user: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "User",
-      },
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Station",
+    },
+    user: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+    },
   },
 
   {
