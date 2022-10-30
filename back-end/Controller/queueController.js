@@ -60,6 +60,59 @@ const queueIncrease = asyncHandler(async (req, res) => {
   }
 });
 
+//decrese queue size by category when exiting the queue
+const queueDecrease = asyncHandler(async (req, res) => {
+  const { vehicleType } = req.body;
+  const { id } = req.params;
+  const queue = await Queue.findById(req.params.id);
+
+  if (queue) {
+    if (vehicleType !== null) {
+      if (vehicleType == "bike") {
+        bike--;
+      }
+      if (vehicleType == "car") {
+        car--;
+      }
+      if (vehicleType == "van") {
+        van--;
+      }
+      if (vehicleType == "bus") {
+        bus--;
+      }
+    }
+    const lengths = await Queue.findByIdAndUpdate(
+      { _id: id },
+      {
+        success: true,
+        $set: {
+          queue: [
+            {
+              bikeQueueLength: bike,
+              carQueueLength: car,
+              vanQueueLength: van,
+              busQueueLength: bus,
+            },
+          ],
+        },
+      },
+      {
+        new: true,
+        runValidators: true,
+      }
+    );
+
+    if (lengths) {
+      res.json({
+        bikeQueueLength: bike,
+        carQueueLength: car,
+        vanQueueLength: van,
+        busQueueLength: bus,
+      });
+    }
+  }
+});
+
 // user entered time for the queue
 const enteredTime = asyncHandler(async (req, res) => {
   const { enteredTime } = req.body;
@@ -79,4 +132,4 @@ const exitTime = asyncHandler(async (req, res) => {
 });
 
 // exporting the methods
-module.exports = { queueIncrease, enteredTime, exitTime };
+module.exports = { queueIncrease, queueDecrease, enteredTime, exitTime };

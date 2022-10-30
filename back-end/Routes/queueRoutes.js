@@ -1,6 +1,7 @@
 const express = require("express");
 const {
   queueIncrease,
+  queueDecrease,
   enteredTime,
   exitTime,
 } = require("../Controller/queueController");
@@ -12,5 +13,6 @@ const router = express.Router();
 router.route("/enteredtime").post(enteredTime);
 router.route("/exittime").post(exitTime);
 router.route("/:id").put(protect, queueIncrease);
+router.route("/queueDecrease/:id").put(protect, queueDecrease);
 
 module.exports = router;
